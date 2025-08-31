@@ -6,7 +6,7 @@ body, html {
   margin: 0;
   padding: 0;
   font-family: 'Libre Baskerville', serif;
-  background: url('pic/Castle.jpg') center/cover no-repeat;
+  background: url('Castle.jpg') center/cover no-repeat;
   background-size: cover;
   position: relative;
   overflow-x: hidden;
@@ -70,7 +70,7 @@ body > * {
 .parallax-castle {
   position: absolute; top: 0; left: 0;
   width: 100%; height: 100%;
-  background: url('pic/Castle.jpg') center/cover no-repeat;
+  background: url('Castle.jpg') center/cover no-repeat;
   filter: brightness(0.35) saturate(1.3);
   z-index: 0;
 }
@@ -150,7 +150,7 @@ body > * {
   height: 160px;
   border-radius: 50%;
   overflow: hidden;
-  background: url('pic/dp.jpg') center/cover no-repeat;
+  background: url('dp.jpg') center/cover no-repeat;
   box-shadow: 0 0 30px #2aa832, 0 0 60px rgba(42,122,42,0.7);
   z-index: 5;
 }
@@ -177,7 +177,7 @@ body > * {
   text-align: center;
   overflow: hidden;
   border: 2px solid rgba(42, 122, 42, 0.5);
-  background-image: url(pic/bc.png); /* parchment texture */
+  background-image: url(bc.png); /* parchment texture */
   background-blend-mode: darken;
   filter: brightness(0.7) contrast(1.2);
   background-size: cover;
