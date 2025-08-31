@@ -311,11 +311,15 @@ collapsible3.addEventListener("click", function() {
   }
 });
 
-// Scroll to the target section when page loads
 window.onload = function() {
-  const target = document.querySelector('.circle-dp');
-  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-};
+  const container = document.querySelector('.container');
+  const topDiv = document.querySelector('.top-half');
 
+  // Check if screen width is mobile
+  if (window.innerWidth <= 768) {
+    // Move topDiv to the end of container
+    container.appendChild(topDiv);
+  }
+};
 
 
