@@ -311,3 +311,38 @@ collapsible3.addEventListener("click", function() {
   }
 });
 
+// Scroll to the target section when page loads
+function smoothScrollTo(elementId, duration = 1000) {
+  const target = document.querySelector(elementId);
+  if (!target) return;
+
+  const startPosition = window.pageYOffset;
+  const targetPosition = target.getBoundingClientRect().top + startPosition;
+  const distance = targetPosition - startPosition;
+  const interval = 10; // 10ms per step
+  const steps = duration / interval;
+  let stepCount = 0;
+
+  function easeInOutQuad(t) {
+    return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+  }
+
+  function scrollStep() {
+    stepCount++;
+    const progress = stepCount / steps;
+    const easedProgress = easeInOutQuad(progress);
+    window.scrollTo(0, startPosition + distance * easedProgress);
+
+    if (stepCount < steps) {
+      setTimeout(scrollStep, interval);
+    }
+  }
+
+  scrollStep(); // start scrolling
+}
+
+window.onload = function() {
+  smoothScrollTo('circle-dp', 1000); // scrolls to #focusSection in 1 second
+};
+
+
