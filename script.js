@@ -1,3 +1,4 @@
+
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
 // Screen dimensions
@@ -48,13 +49,13 @@ const fairyPath = [
 gsap.to("#tintin-fairy", {
   duration: 12,
   motionPath: { path: fairyPath, curviness: 1.2 },
-  scale: screenWidth < 480 ? 0.15 : 0.2,
+  scale: screenWidth < 280 ? 0.15 : 0.2,
   rotation: 10,
   ease: "power1.inOut",
   repeat: -1,
   yoyo: true,
   onUpdate: () => {
-    if(screenWidth < 480) return; // skip fumes on tiny screens
+    if(screenWidth < 280) return; // skip fumes on tiny screens
     const fairy = document.querySelector("#tintin-fairy");
     const fumes = document.createElement("div");
     fumes.className = "green-fume";
@@ -71,6 +72,76 @@ gsap.to("#tintin-fairy", {
     gsap.to(fumes, { opacity: 0, scale: 2, duration: 1, onComplete: () => fumes.remove() });
   }
 });
+
+
+function moveFairy() {
+  const fairy = document.querySelector("#fairy1");
+  const screenWidth = window.innerWidth;
+  const screenHeight = window.innerHeight;
+
+  // pick a random target position
+  const x = Math.random() * screenWidth;
+  const y = Math.random() * screenHeight;
+
+  gsap.to(fairy, {
+    x: x,
+    y: y,
+    duration: Math.random() * 6 + 4, // 4–10 sec per move
+    ease: "power1.inOut",
+    onComplete: moveFairy, // when done, go somewhere else
+    onUpdate: () => {
+      if (screenWidth < 280) return; // skip sparkles on tiny screens
+
+      // Occasionally spawn subtle sparkles
+      if (Math.random() > 0.3) return;
+
+      const fumes = document.createElement("div");
+      fumes.className = "green-fume";
+
+      // Random sparkle properties
+      const size = Math.random() * 6 + 4; // 4–10px
+      const driftX = (Math.random() - 0.5) * 20;
+      const driftY = Math.random() * 15;
+      const opacity = Math.random() * 0.4 + 0.2;
+
+      fumes.style.position = "absolute";
+      fumes.style.width = `${size}px`;
+      fumes.style.height = `${size}px`;
+      fumes.style.borderRadius = "50%";
+      fumes.style.pointerEvents = "none";
+
+      const greenShade = `rgba(0, ${180 + Math.floor(Math.random() * 50)}, 0, ${opacity})`;
+      const silverShade = `rgba(${180 + Math.floor(Math.random() * 60)}, ${180 + Math.floor(Math.random() * 60)}, ${180 + Math.floor(Math.random() * 60)}, ${opacity})`;
+
+      fumes.style.background = `radial-gradient(circle, ${greenShade} 30%, ${silverShade} 100%)`;
+      fumes.style.boxShadow = `
+        0 0 ${Math.random() * 5 + 3}px 1px ${greenShade},
+        0 0 ${Math.random() * 8 + 5}px 2px ${silverShade}
+      `;
+
+      // Position at fairy’s current position
+      const rect = fairy.getBoundingClientRect();
+      fumes.style.left = `${rect.left + rect.width / 2}px`;
+      fumes.style.top = `${rect.top + rect.height / 2}px`;
+
+      document.body.appendChild(fumes);
+
+      gsap.to(fumes, {
+        opacity: 0,
+        x: driftX,
+        y: -driftY,
+        scale: Math.random() * 0.8 + 0.8,
+        duration: Math.random() * 1.8 + 1.2,
+        ease: "sine.out",
+        onComplete: () => fumes.remove()
+      });
+    }
+  });
+}
+
+// Start the fairy movement
+moveFairy();
+
 
 // Invite details fade in
 gsap.to(".invite-details p", {
@@ -147,23 +218,40 @@ dp.addEventListener("click", () => {
   dp.classList.toggle("expanded");
 });
 
-const bgAudio = document.getElementById('bg-audio');
-let playCount = 0;
+window.addEventListener('DOMContentLoaded', () => {
+  const bgAudio = document.getElementById("bg-audio");
+  const toggleBtn = document.getElementById("musicToggle");
 
-// Wait until the page is loaded
-window.addEventListener('load', () => {
-  // Try to play the audio
+  if (!bgAudio || !toggleBtn) {
+    console.error("Audio or toggle button element not found!");
+    return; // Stop if elements are missing
+  }
+
+  // Try autoplay on load
   bgAudio.play().catch(() => {
-    console.log("Autoplay blocked. Tap anywhere to start.");
-    
-    // Fallback for mobile devices
+    console.log("Autoplay blocked. Tap to start.");
+
+    // Fallback for mobile devices: play on first click anywhere
     const startAudio = () => {
       bgAudio.play();
       document.removeEventListener('click', startAudio);
     };
     document.addEventListener('click', startAudio);
   });
+
+  // Toggle play/pause
+  toggleBtn.addEventListener("click", () => {
+    if (bgAudio.paused) {
+      bgAudio.play();
+      toggleBtn.textContent = "⏸️";
+    } else {
+      bgAudio.pause();
+      toggleBtn.textContent = "▶️";
+    }
+  });
 });
+
+
 
 // No repeat needed, so no 'ended' listener
 
@@ -310,7 +398,6 @@ collapsible3.addEventListener("click", function() {
     );
   }
 });
-
 window.onload = function() {
   const container = document.querySelector('.container');
   const topDiv = document.querySelector('.top-half');
@@ -321,5 +408,22 @@ window.onload = function() {
     container.appendChild(topDiv);
   }
 };
+// Collapsible behavior for content4
+const coll4 = document.querySelectorAll(".collapsible4");
+coll4.forEach(btn => {
+  btn.addEventListener("click", function() {
+    this.classList.toggle("active");
+    const content = this.nextElementSibling;
+    if (content.style.maxHeight) {
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    }
+  });
+});
 
-
+// Submit directly to Google Forms without popup
+function rsvpSubmit() {
+  alert("¡Gracias! Tu RSVP ha sido enviado exitosamente.");
+  return true; // allows form to submit directly
+}
