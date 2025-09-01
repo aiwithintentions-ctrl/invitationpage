@@ -16,9 +16,11 @@
 <body>
   <div class="container">
 <!-- Background Audio -->
+<button id="musicToggle" class="music-btn">⏸️</button>
 <audio id="bg-audio" autoplay loop>
   <source src="bmg.mp3" type="audio/mpeg">
 </audio>
+
   <!-- Top Half -->
   <div class="top-half">
 
@@ -37,9 +39,7 @@
 
   <!-- Bottom Half -->
   <div class="bottom-half">
-
-    <!-- Tintin Fairy -->
-    <img id="tintin-fairy" src="broom.png" alt="Magical Fairy" />
+  <img id="fairy1" src="hat.png" alt="Magical Fairy" />
 
     <div class="invite-container">
 
@@ -114,6 +114,36 @@
       </ul>
       <p>¡Cada regalo ayuda a celebrar este día mágico de manera inolvidable!</p>
     </div>
+    <button class="collapsible4">📜 RSVP – Confirma tu asistencia</button>
+    <div class="content4">
+      <form id="rsvp-form" action="https://docs.google.com/forms/d/e/1FAIpQLScQzdChLQde04qiU-KZlnmdP1sdBVeDM2XBbwjwPuXy-yDvDg/formResponse" target="hidden_iframe" onsubmit="return rsvpSubmit();" method="POST">
+        
+        <label for="attendees">Número de asistentes:</label>
+        <select name="entry.1833926686" id="attendees" required>
+          <option value="">Selecciona</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+        </select>
+    
+        <label for="name1">Nombre del primer invitado:</label>
+        <input type="text" name="entry.901007651" id="name1" placeholder="Nombre completo" required>
+    
+        <label for="house">Casa:</label>
+        <select name="entry.1160029117" id="house" required>
+          <option value="">Selecciona tu casa</option>
+          <option value="Gryffindor 🦁">Gryffindor 🦁</option>
+          <option value="Hufflepuff 🦡">Hufflepuff 🦡</option>
+          <option value="Ravenclaw 🦅">Ravenclaw 🦅</option>
+          <option value="Dementors 👻">Dementors 👻</option>
+        </select>
+    
+        <button type="submit" class="rsvp-submit">Enviar RSVP</button>
+      </form>
+      <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+    </div>
+    
+    
+
   </div>
 
         </div>
@@ -121,6 +151,7 @@
     </div>
 
   </div>
+  
 
   <!-- Glitter Container -->
   <div id="bottom-glitter"></div>
@@ -131,7 +162,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/MotionPathPlugin.min.js"></script>
-  <script src="script.js"></script>
-    </div>
+  
+  <script src="script.js" defer></script>
+</div>
 </body>
 </html>
